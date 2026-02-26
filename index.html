@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Cheatsheet — RED & Orpheus</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: { sans: ['-apple-system','BlinkMacSystemFont','SF Pro Display','Segoe UI','sans-serif'] },
+    }
+  }
+}
+</script>
+<style>
+  .item.hidden { display: none !important; }
+  mark { background: rgba(234,179,8,0.3); color: inherit; border-radius: 2px; padding: 0 2px; }
+  /* Smooth bento card hover */
+  .bento { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .bento:hover { transform: translateY(-2px); }
+  /* Search glow */
+  #search:focus { box-shadow: 0 0 0 3px rgba(59,130,246,0.25); }
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 4px; }
+  .dark ::-webkit-scrollbar-thumb { background: #4b5563; }
+  /* Comparison card split */
+  .split-red { border-left: 3px solid #ef4444; }
+  .split-ops { border-left: 3px solid #a855f7; }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 min-h-screen transition-colors duration-300">
+
+<!-- STICKY SEARCH BAR -->
+<div class="sticky top-0 z-50 bg-gray-50/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 px-4 py-3">
+  <div class="max-w-6xl mx-auto relative">
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input type="text" id="search" placeholder="Search everything…" autocomplete="off" autofocus
+      class="w-full pl-10 pr-16 py-2.5 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-base outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-all placeholder:text-gray-400">
+    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono pointer-events-none">⌘K</span>
+    <div id="match-count" class="hidden text-xs text-gray-400 mt-1"></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="max-w-6xl mx-auto px-4 py-6 space-y-4">
+
+  <!-- HERO: KEY NUMBERS -->
+  <div class="bento item rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="lossless frequency cutoff 22khz flac wav mp3 320 cbr 20.5khz 256 20khz v0 19.5khz 192 19khz v2 18.5khz 128 16khz shelf transparency threshold human hearing 20hz 20khz ratio watch freeleech token interview attempts retry cooldown api rate limit">
+    <h2 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4">⚡ Key Numbers to Memorize</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-2">
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Lossless cutoff</span><span class="font-semibold font-mono">22 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">320 CBR cutoff</span><span class="font-semibold font-mono">20.5 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">256 CBR cutoff</span><span class="font-semibold font-mono">20 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">V0 cutoff</span><span class="font-semibold font-mono">19.5 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">192 CBR cutoff</span><span class="font-semibold font-mono">19 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">V2 cutoff</span><span class="font-semibold font-mono">18.5 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">128 CBR cutoff</span><span class="font-semibold font-mono">16 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">MP3 shelf (all)</span><span class="font-semibold font-mono">16 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Transparency</span><span class="font-semibold font-mono">192 kbps</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">V0 bitrate</span><span class="font-semibold font-mono">230–270 kbps</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">V2 bitrate</span><span class="font-semibold font-mono">180–210 kbps</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Min lossy</span><span class="font-semibold font-mono">192 / V2</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Lossless format</span><span class="font-semibold font-mono">FLAC only</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Human hearing</span><span class="font-semibold font-mono">20 Hz–20 kHz</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Ratio watch</span><span class="font-semibold font-mono">2 weeks</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Freeleech max</span><span class="font-semibold font-mono">5 GB / 7 days</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Interview tries</span><span class="font-semibold font-mono">3 total</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Accounts/lifetime</span><span class="font-semibold font-mono">1</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">API rate limit</span><span class="font-semibold font-mono">5 req / 10s</span></div>
+      <div class="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-1"><span class="text-gray-500">Unseeded trump</span><span class="font-semibold font-mono">2 weeks</span></div>
+    </div>
+  </div>
+
+  <!-- BENTO GRID -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- MUSIC SOURCES -->
+    <div class="bento item rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="analog music sources vinyl records cassette tapes analog to digital converter sound card digital cd dvd sacd web downloads itunes amazon web rips upload process spectral analysis">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">🎵 Music Sources</h3>
+      <div class="space-y-3 text-sm">
+        <div>
+          <h4 class="font-semibold mb-1">Analog</h4>
+          <ul class="list-disc pl-4 space-y-0.5 text-gray-700 dark:text-gray-300">
+            <li>Require <strong>analog-to-digital converter</strong> (sound card)</li>
+            <li><strong>Vinyl records</strong> — <span class="text-green-600 dark:text-green-400 font-medium">always allowed</span></li>
+            <li><strong>Cassette tapes</strong> — <span class="text-yellow-600 dark:text-yellow-400 font-medium">strict conditions</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-1">Digital</h4>
+          <ul class="list-disc pl-4 space-y-0.5 text-gray-700 dark:text-gray-300">
+            <li><strong>CDs, DVDs, SACDs</strong> — physical digital media</li>
+            <li><strong>Web downloads</strong> — iTunes, Amazon (legitimate)</li>
+            <li><strong>Web rips</strong> = lossy transcode of stream — <span class="text-red-500 font-medium">bad</span></li>
+          </ul>
+        </div>
+        <p class="text-gray-500 text-xs">Upload rule: use spectral analysis to check for lossy transcodes before uploading.</p>
+      </div>
+    </div>
+
+    <!-- AUDIO FORMATS -->
+    <div class="bento item rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="uncompressed lossless compressed lossless lossy audio formats wav aiff flac alac ape mp3 aac wma ac3 dts bitrate kilobits kbps transparency 192 red allowed formats">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">📀 Audio Formats</h3>
+      <div class="space-y-2 text-sm">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500"><th class="pb-1">Category</th><th class="pb-1">Description</th><th class="pb-1">Examples</th></tr></thead>
+          <tbody class="text-gray-700 dark:text-gray-300">
+            <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-medium">Uncompressed Lossless</td><td>ALL data, no compression</td><td>WAV, AIFF</td></tr>
+            <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-medium">Compressed Lossless</td><td>Smaller, ALL data retained</td><td>FLAC, ALAC, APE</td></tr>
+            <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-medium">Lossy</td><td>Removes inaudible freq</td><td>MP3, AAC, WMA</td></tr>
+          </tbody>
+        </table>
+        <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 mt-2">
+          <p><strong>Bitrate:</strong> kbps — higher = better. <strong>Transparency:</strong> 192 kbps CBR.</p>
+          <p class="mt-1"><strong>RED allows:</strong> FLAC (lossless) · MP3 ≥192 CBR/V2 · AAC (iTunes only) · AC3/DTS (DVD)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAME MP3 ENCODING — FULL WIDTH -->
+    <div class="bento item md:col-span-2 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="lame aint an mp3 encoder open source cbr constant bitrate vbr variable bitrate abr average bitrate 320 v0 v2 192 red allowed encoding presets valid cbr rates 8 16 24 32 40 48 64 80 96 112 128 160 192 224 256 320">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">🎛️ LAME MP3 Encoding</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        <div>
+          <table class="w-full">
+            <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500"><th class="pb-1">Format</th><th class="pb-1">Type</th><th class="pb-1">Bitrate</th><th class="pb-1">Allowed?</th></tr></thead>
+            <tbody class="text-gray-700 dark:text-gray-300">
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-semibold">320 CBR</td><td>Constant</td><td>320 kbps</td><td class="text-green-600 dark:text-green-400">✓</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-semibold">V0</td><td>Variable</td><td>~230–270</td><td class="text-green-600 dark:text-green-400">✓</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-semibold">V2</td><td>Variable</td><td>~180–210</td><td class="text-green-600 dark:text-green-400">✓ min VBR</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-semibold">192 CBR</td><td>Constant</td><td>192 kbps</td><td class="text-green-600 dark:text-green-400">✓ min CBR</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">ABR</td><td>Average</td><td>varies</td><td class="text-red-500">✗</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="space-y-3">
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold">CBR — Constant Bitrate</p>
+            <p class="text-gray-600 dark:text-gray-400">Every second uses the same bits. Valid: 8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320.</p>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold">VBR — Variable Bitrate</p>
+            <p class="text-gray-600 dark:text-gray-400">Adjusts per complexity. V0 (best) → V9 (worst). Different bits each second.</p>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold">ABR — Average Bitrate</p>
+            <p class="text-gray-600 dark:text-gray-400">Targets an average while varying. <span class="text-red-500 font-medium">Not recommended</span> — a mix of CBR and VBR.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GOOD TRANSCODES -->
+    <div class="bento item rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="good transcode allowed lossless to lossless lossless to lossy never converted lossy only once last step final step transcoding converting format">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-green-600 dark:text-green-400 mb-3">✓ Good Transcodes</h3>
+      <p class="text-xs text-gray-500 mb-2">Never converted to lossy, or lossy only once as the <strong>final step</strong>.</p>
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500"><th class="pb-1">From</th><th class="pb-1">To</th><th class="pb-1"></th></tr></thead>
+        <tbody class="text-gray-700 dark:text-gray-300">
+          <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Uncompressed lossless</td><td>Compressed lossless</td><td class="text-green-600">OK</td></tr>
+          <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Compressed lossless</td><td>Uncompressed lossless</td><td class="text-green-600">OK</td></tr>
+          <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Compressed lossless</td><td>Compressed lossless</td><td class="text-green-600">OK</td></tr>
+          <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Any lossless</td><td>Lossy (final step)</td><td class="text-green-600">OK</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BAD TRANSCODES -->
+    <div class="bento item rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="bad transcode prohibited lossy to lossy lossy to lossless more than once does not restore lost data core rule never lossy encoding once">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-red-500 mb-3">✗ Bad Transcodes</h3>
+      <p class="text-xs text-gray-500 mb-2">Lossy more than once, or lossy→lossless (does NOT restore data).</p>
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500"><th class="pb-1">From</th><th class="pb-1">To</th><th class="pb-1"></th></tr></thead>
+        <tbody class="text-gray-700 dark:text-gray-300">
+          <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Higher lossy</td><td>Lower lossy</td><td class="text-red-500">NO</td></tr>
+          <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Same lossy</td><td>Same lossy</td><td class="text-red-500">NO</td></tr>
+          <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Any lossy</td><td>Any lossless</td><td class="text-red-500">NO</td></tr>
+        </tbody>
+      </table>
+      <div class="mt-3 bg-red-50 dark:bg-red-950/30 rounded-lg p-3 text-sm">
+        <strong>Core rule:</strong> Never lossy→lossy. Never lossy→lossless. Lossy = <strong>once only, final step</strong>.
+      </div>
+    </div>
+
+    <!-- SPECTRAL ANALYSIS — FULL WIDTH -->
+    <div class="bento item md:col-span-2 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="spectral analysis visual display data music file frequency time hertz hz kilohertz khz frequency cutoffs detect transcode lossy to lossless flac truncated hard cutoff tools audacity adobe audition sox audio identifier dbpoweramp">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">📊 Spectral Analysis</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        <div>
+          <p class="text-gray-600 dark:text-gray-400 mb-3">Visual display of audio — frequencies (Hz/kHz) vs time. Human hearing: <strong>20 Hz – 20 kHz</strong>.</p>
+          <table class="w-full">
+            <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500"><th class="pb-1">Format</th><th class="pb-1">Cutoff</th></tr></thead>
+            <tbody class="text-gray-700 dark:text-gray-300">
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Lossless (CD/FLAC/WAV)</td><td class="font-mono font-semibold">22 kHz</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">MP3 320 CBR</td><td class="font-mono font-semibold">20.5 kHz</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">MP3 256 CBR</td><td class="font-mono font-semibold">20 kHz</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">MP3 V0</td><td class="font-mono font-semibold">19.5 kHz</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">MP3 192 CBR</td><td class="font-mono font-semibold">19 kHz</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">MP3 V2</td><td class="font-mono font-semibold">18.5 kHz</td></tr>
+              <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">MP3 128 CBR</td><td class="font-mono font-semibold">16 kHz</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="space-y-3">
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold mb-1">MP3 Shelf</p>
+            <p class="text-gray-600 dark:text-gray-400">ALL MP3 files display a <strong>shelf at 16 kHz</strong> regardless of bitrate.</p>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold mb-1">How to Detect Transcodes</p>
+            <ul class="list-disc pl-4 space-y-1 text-gray-600 dark:text-gray-400">
+              <li>Lossy→lossless shows <strong>truncated cutoff</strong> matching original lossy source</li>
+              <li>FLAC @ 19.5 kHz → likely from <strong>V0 MP3</strong></li>
+              <li>FLAC @ 16 kHz → likely from <strong>128 kbps MP3</strong></li>
+              <li>Metadata alone <strong>cannot</strong> reliably identify transcodes</li>
+            </ul>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold mb-1">Tools</p>
+            <p class="text-gray-600 dark:text-gray-400"><strong>Audacity</strong> · <strong>Adobe Audition</strong> · <strong>SoX</strong> · Audio Identifier · dbPowerAmp</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TORRENTING -->
+    <div class="bento item rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="bittorrent peer to peer torrent files leeching downloading seeding uploading chunks ratio uploaded divided downloaded 1.0 healthy ratio watch 2 weeks 72 hours freeleech neutral leech token 5gb 7 days port forwarding nat partial seeders private flag client whitelist dht">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">🌐 Torrenting / BitTorrent</h3>
+      <div class="space-y-3 text-sm">
+        <ul class="list-disc pl-4 space-y-1 text-gray-700 dark:text-gray-300">
+          <li>P2P: data in <strong>.torrent files</strong>. <strong>Leeching</strong> = downloading, <strong>Seeding</strong> = uploading</li>
+          <li><strong>Ratio = uploaded / downloaded</strong> · 1.0 = healthy</li>
+          <li>Below required → <strong>ratio watch (2 weeks)</strong> → download disabled</li>
+          <li>Seed 100% of torrents for <strong>72h/week</strong> → lower required ratio</li>
+        </ul>
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500"><th class="pb-1">Type</th><th class="pb-1">Upload?</th><th class="pb-1">Download?</th></tr></thead>
+          <tbody class="text-gray-700 dark:text-gray-300">
+            <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-medium">Freeleech</td><td class="text-green-600">✓ counts</td><td class="text-green-600">✗ free</td></tr>
+            <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1 font-medium">Neutral Leech</td><td class="text-gray-400">✗</td><td class="text-gray-400">✗</td></tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-gray-500">Tokens: max 5 GB, valid 7 days. Port forwarding, private flag required. Client whitelist enforced. <strong>DHT must be OFF</strong>.</p>
+      </div>
+    </div>
+
+    <!-- CD RIPPING -->
+    <div class="bento item rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="cd ripping extracting music burning making cd eac exact audio copy xld x lossless decoder windows linux macos log files text ripping process errors never modify cue files catalog table of contents burn identical">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">💿 CD Ripping & Burning</h3>
+      <div class="space-y-3 text-sm">
+        <table class="w-full">
+          <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500"><th class="pb-1">Platform</th><th class="pb-1">Software</th></tr></thead>
+          <tbody class="text-gray-700 dark:text-gray-300">
+            <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">Windows / Linux</td><td class="font-semibold">Exact Audio Copy (EAC)</td></tr>
+            <tr class="border-t border-gray-100 dark:border-gray-800"><td class="py-1">macOS</td><td class="font-semibold">X Lossless Decoder (XLD)</td></tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-gray-500">Both must be configured per RED wiki guides.</p>
+        <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+          <p class="font-semibold">.log files</p>
+          <p class="text-gray-600 dark:text-gray-400">Document the ripping process + errors. <span class="text-red-500 font-medium">NEVER modify</span> — results in warnings / account disabled.</p>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+          <p class="font-semibold">.cue files</p>
+          <p class="text-gray-600 dark:text-gray-400">Table of contents / catalog. Used to burn an identical copy of the original CD.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RED vs OPS COMPARISON — FULL WIDTH -->
+    <div class="bento item md:col-span-2 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="red orpheus ops comparison interview irc scratch-network 6697 ssl red-invites queue speedtest orpheus.network 7000 recruitment hermes cancel info retry cooldown 48 24 hours response time 20 15 minutes duration 1-2 hours 50-80 minutes vpn tor rule cassette uploads spectral tools dht account inactivity rules structure">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">⚔️ RED vs Orpheus — Key Differences</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <!-- RED side -->
+        <div class="split-red rounded-xl bg-red-50/50 dark:bg-red-950/20 p-4 space-y-3">
+          <h4 class="font-bold text-red-600 dark:text-red-400 text-base">RED (Redacted)</h4>
+          <div class="space-y-2 text-gray-700 dark:text-gray-300">
+            <div><span class="text-gray-500 text-xs uppercase">IRC Server</span><br><code class="text-sm bg-white/50 dark:bg-black/20 px-1 rounded">irc.scratch-network.net:6697</code></div>
+            <div><span class="text-gray-500 text-xs uppercase">Channel</span><br><strong>#RED-invites</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">Queue command</span><br><code class="text-sm bg-white/50 dark:bg-black/20 px-1 rounded">!queue &lt;speedtest&gt;</code></div>
+            <div><span class="text-gray-500 text-xs uppercase">Cancel</span><br>Leave channel</div>
+            <div><span class="text-gray-500 text-xs uppercase">Retry cooldown</span><br><strong>48 hours</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">Response time</span><br><strong>20 minutes</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">Duration</span><br><strong>1–2 hours</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">VPN rule</span><br>No Tor. VPN OK as member.</div>
+            <div><span class="text-gray-500 text-xs uppercase">Cassette uploads</span><br>Strict conditions</div>
+            <div><span class="text-gray-500 text-xs uppercase">Spectral tools</span><br>Audacity, Adobe Audition, SoX</div>
+            <div><span class="text-gray-500 text-xs uppercase">Rules</span><br>24 flat rules</div>
+          </div>
+        </div>
+        <!-- OPS side -->
+        <div class="split-ops rounded-xl bg-purple-50/50 dark:bg-purple-950/20 p-4 space-y-3">
+          <h4 class="font-bold text-purple-600 dark:text-purple-400 text-base">OPS (Orpheus)</h4>
+          <div class="space-y-2 text-gray-700 dark:text-gray-300">
+            <div><span class="text-gray-500 text-xs uppercase">IRC Server</span><br><code class="text-sm bg-white/50 dark:bg-black/20 px-1 rounded">irc.orpheus.network:7000</code></div>
+            <div><span class="text-gray-500 text-xs uppercase">Channel</span><br><strong>#recruitment</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">Queue command</span><br><code class="text-sm bg-white/50 dark:bg-black/20 px-1 rounded">/msg Hermes !queue &lt;speedtest&gt;</code></div>
+            <div><span class="text-gray-500 text-xs uppercase">Cancel / Info</span><br><code class="text-sm bg-white/50 dark:bg-black/20 px-1 rounded">/msg Hermes !cancel</code> · <code class="text-sm bg-white/50 dark:bg-black/20 px-1 rounded">/msg Hermes !info</code></div>
+            <div><span class="text-gray-500 text-xs uppercase">Retry cooldown</span><br><strong>24 hours</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">Response time</span><br><strong>15 minutes</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">Duration</span><br><strong>50–80 minutes</strong></div>
+            <div><span class="text-gray-500 text-xs uppercase">VPN rule</span><br>No free VPN/proxy. Paid OK. Tor prohibited.</div>
+            <div><span class="text-gray-500 text-xs uppercase">Cassette uploads</span><br>Requires moderator approval</div>
+            <div><span class="text-gray-500 text-xs uppercase">Spectral tools</span><br>Audacity, Adobe Audition, SoX + Audio Identifier, dbPowerAmp</div>
+            <div><span class="text-gray-500 text-xs uppercase">Rules</span><br>7 sections (1.x–7.x) · DHT must be OFF · Regular logins required</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 text-sm text-gray-600 dark:text-gray-400">
+        <strong>Everything else is identical:</strong> formats, transcodes, cutoffs, encoding, LAME presets, spectral analysis concepts, CD ripping software & rules, ratio system, freeleech tokens.
+      </div>
+    </div>
+
+    <!-- GOLDEN RULES — FULL WIDTH -->
+    <div class="bento item md:col-span-2 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="golden rules one account per lifetime trading selling sharing invitee responsibility invite trading requesting ratio manipulation cheating unapproved clients modified torrent passkey blackmail scamming staff disrespect impersonation backseat moderation special events information harvesting commercial use tor forbidden automated access api freeleech autosnatching bug exploitation exploit publication dupe rules format trump lossless log 100% cue tag folder rules">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-red-500 mb-3">🛡️ Golden Rules (24 Prohibitions)</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm">
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#1</span><span><strong>One account per lifetime.</strong></span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#2</span><span>No trading, selling, giving away accounts.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#3</span><span>No sharing accounts. <strong>Personal use only.</strong></span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#4</span><span>Responsible for invitees.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#5</span><span>No trading/selling/publicly offering invites.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#6</span><span>No requesting invites or accounts.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#7</span><span>No ratio manipulation.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#8</span><span>No cheating (reporting incorrect data).</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#9</span><span>No unapproved clients. <strong>Client Whitelist</strong> enforced.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#10</span><span>No modifying .torrent files.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#11</span><span>No sharing .torrent files or passkey.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#12</span><span>No blackmail, threats, or doxxing.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#13</span><span>No scamming or phishing.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#14</span><span>No disrespecting staff decisions.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#15</span><span>No impersonating staff.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#16</span><span>No backseat moderating.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#17</span><span>No requesting special events.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#18</span><span>No harvesting user info.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#19</span><span>No commercial use of services.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#20</span><span><strong>No Tor.</strong> Browsing or torrenting via Tor forbidden.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#21</span><span>No abusing automated access. API only (<strong>5 req / 10s</strong>).</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#22</span><span>No autosnatching freeleech torrents.</span></div>
+        <div class="flex gap-2 py-1 border-b border-gray-100 dark:border-gray-800"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#23</span><span>No seeking or exploiting bugs.</span></div>
+        <div class="flex gap-2 py-1"><span class="text-red-500 font-bold text-xs w-6 shrink-0">#24</span><span>No publishing exploits.</span></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 text-sm">
+          <p class="font-semibold mb-1">Dupe Rules</p>
+          <ul class="list-disc pl-4 space-y-0.5 text-gray-600 dark:text-gray-400">
+            <li>Same bitrate + format + sampling rate = duplicate</li>
+            <li>Scene & non-scene of same release = dupes</li>
+            <li>Different editions need different content</li>
+            <li>Unseeded 2+ weeks → can be trumped</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 text-sm">
+          <p class="font-semibold mb-1">Trump Rules</p>
+          <ul class="list-disc pl-4 space-y-0.5 text-gray-600 dark:text-gray-400">
+            <li>FLAC without log → trumped by FLAC <strong>with log</strong></li>
+            <li>100% log replaces lower scores</li>
+            <li>Higher CBR/ABR replaces lower. Min 192 kbps avg</li>
+            <li>Required tags: title, album, artist, track #</li>
+            <li>Folder: <strong>Artist - Album (Year) - Format</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERVIEW FAQ — FULL WIDTH -->
+    <div class="bento item md:col-span-2 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm p-5" data-text="interview process faq connection no vpn proxy bouncer mobile remote desktop cli home connection dorm 3 attempts no notes references break 10-15 minutes disconnect lose position requeue speedtest leave queue no penalty ex-whatcd wrong questions idle kicked after passing rules download red toolbox confidentiality posting account loss">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">❓ Interview FAQ</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        <div class="space-y-2">
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold">Connection Requirements</p>
+            <ul class="list-disc pl-4 space-y-0.5 text-gray-600 dark:text-gray-400 mt-1">
+              <li><span class="text-green-600 dark:text-green-400 font-medium">Home connection only</span> (dorm OK)</li>
+              <li><span class="text-red-500 font-medium">No VPN, proxy, bouncer, mobile, remote desktop, CLI clients</span></li>
+              <li>3 attempts total, <span class="text-red-500 font-medium">no notes/references</span></li>
+              <li>Break if needed: 10–15 minutes</li>
+            </ul>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold">After Passing</p>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">Review rules, download RED Toolbox, engage community.</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+            <p class="font-semibold">Common Questions</p>
+            <ul class="list-disc pl-4 space-y-0.5 text-gray-600 dark:text-gray-400 mt-1">
+              <li><strong>Disconnect?</strong> Lose position — requeue with fresh speedtest</li>
+              <li><strong>Leave queue?</strong> No penalty</li>
+              <li><strong>Ex-What.CD?</strong> Must still interview</li>
+              <li><strong>How many wrong?</strong> Depends on topic importance</li>
+              <li><strong>Idle kicked?</strong> Rejoin after 15 min</li>
+            </ul>
+          </div>
+          <div class="bg-red-50 dark:bg-red-950/30 rounded-lg p-3">
+            <p class="font-semibold text-red-600 dark:text-red-400">Confidentiality</p>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">Posting interview contents = <strong class="text-red-500">account loss</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /bento grid -->
+</div><!-- /main content -->
+
+<!-- DARK/LIGHT MODE TOGGLE -->
+<button id="theme-toggle" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg flex items-center justify-center text-xl hover:scale-110 transition-transform cursor-pointer" aria-label="Toggle dark mode">
+  <span id="theme-icon">🌙</span>
+</button>
+
+<script>
+// Dark mode
+(function() {
+  const html = document.documentElement;
+  const toggle = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+
+  function getTheme() {
+    const stored = localStorage.getItem('theme');
+    if (stored) return stored;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    html.classList.toggle('dark', theme === 'dark');
+    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+
+  applyTheme(getTheme());
+
+  toggle.addEventListener('click', () => {
+    const next = html.classList.contains('dark') ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
+  });
+})();
+
+// Fuzzy search
+const searchInput = document.getElementById('search');
+const matchCount = document.getElementById('match-count');
+const allItems = document.querySelectorAll('.item');
+
+function fuzzyMatch(text, query) {
+  const t = text.toLowerCase();
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  return words.every(w => t.includes(w));
+}
+
+function highlightText(el, query) {
+  el.querySelectorAll('mark').forEach(m => m.replaceWith(m.textContent));
+  if (!query) return;
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!words.length) return;
+
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+  textNodes.forEach(node => {
+    const parent = node.parentNode;
+    if (parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE' || parent.tagName === 'MARK' || parent.tagName === 'CODE') return;
+    let html = node.textContent;
+    words.forEach(w => {
+      const re = new RegExp(`(${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      html = html.replace(re, '<mark>$1</mark>');
+    });
+    if (html !== node.textContent) {
+      const span = document.createElement('span');
+      span.innerHTML = html;
+      parent.replaceChild(span, node);
+    }
+  });
+}
+
+let debounceTimer;
+searchInput.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(doSearch, 80);
+});
+
+function doSearch() {
+  const q = searchInput.value.trim();
+  if (!q) {
+    allItems.forEach(el => { el.classList.remove('hidden'); });
+    matchCount.classList.add('hidden');
+    allItems.forEach(el => {
+      el.querySelectorAll('mark').forEach(m => m.replaceWith(m.textContent));
+    });
+    return;
+  }
+
+  let count = 0;
+  allItems.forEach(el => {
+    const searchText = (el.dataset.text || '') + ' ' + el.textContent;
+    const match = fuzzyMatch(searchText, q);
+    el.classList.toggle('hidden', !match);
+    if (match) {
+      count++;
+      highlightText(el, q);
+    }
+  });
+
+  matchCount.textContent = `${count} match${count !== 1 ? 'es' : ''}`;
+  matchCount.classList.remove('hidden');
+}
+
+// Cmd+K shortcut
+document.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  }
+  if (e.key === 'Escape') {
+    searchInput.value = '';
+    doSearch();
+    searchInput.blur();
+  }
+});
+</script>
+</body>
+</html>
